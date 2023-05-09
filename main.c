@@ -12,85 +12,119 @@ int main(int argc, char* argv[]) {
 //    if (argc > 1) {
 //        load_products(argv[1]);
 //    }
-    load_products("..//T5-Products-10.txt");
-    product_t prod1, *pProd = &prod1;
-    product_t *pProd1;
+    product_t *prod1 = task_2_load_products("..//T2-Products.txt");
+    for (int i=0; i<30; i++) {
+//        printf("%lu\n", *prod1);
+        printf("prod1 i is %d\n",i);
+        printf("%lu %u %f %f %s \n",prod1->product_code, prod1->stock_quantity, prod1->unit_price,
+               prod1->discount_percentage, prod1->product_name);
+//        printf("%lu\n",prod1->product_code);
+//        printf("%u\n",prod1->stock_quantity);
+//        printf("%f\n",prod1->unit_price);
+//        printf("%f\n",prod1->discount_percentage);
+//        printf("%s\n",prod1->product_name);
+        prod1++;
+    }
 
-    prod1.code = 100000;
-    prod1.discount = 1.0;
+    int num_items = 0;
+    product_t *prod2 = task_5_load_products("..//T5-Products-300.txt",&num_items);
+    for (int i=0; i<num_items; i++) {
+        printf("i is %d\n",i);
+        printf("%lu %u %f %f %s \n",prod2->product_code, prod2->stock_quantity, prod2->unit_price,
+               prod2->discount_percentage, prod2->product_name);
+        prod2++;
+    }
 
-    char name[20] = "just a test";
-    strcpy(prod1.name,name);
-
-    prod1.price_per_unit = 10.01;
-    prod1.quantity = 1000;
-
-    printf("prod1 name %s\n",prod1.name);
-    printf("prod1 code %lu\n",prod1.code);
-    printf("prod1 price_per_unit %0.2f\n",prod1.price_per_unit);
-    printf("prod1 quantity %u\n",prod1.quantity);
-
-    printf("*pProd  name %s \n",(*pProd).name);
-    printf("*pProd  code %lu \n",(*pProd).code);
-    printf("*pProd  price_per_unit %0.2f \n",(*pProd).price_per_unit);
-    printf("*pProd quantity %u \n",(*pProd).quantity);
-
-    pProd1 = pProd;
-    printf("*pProd1  name %s \n",(*pProd1).name);
-    printf("*pProd1  code %lu \n",(*pProd1).code);
-    printf("*pProd1  price_per_unit %0.2f \n",(*pProd1).price_per_unit);
-    printf("*pProd1 quantity %u \n",(*pProd1).quantity);
-
-    printf("pProd  name %s \n",pProd->name);
-    printf("pProd  code %lu \n",pProd->code);
-    printf("pProd  price_per_unit %0.2f \n",pProd->price_per_unit);
-    printf("pProd quantity %u \n",pProd->quantity);
-
+    size_t a = sizeof(product_t);
+    printf("pProd struct %lu \n",a);
     return 0;
 
 }
 
-product_t load_products(char* name) {
+product_t *task_5_load_products(char* name, int* num_items) {
     FILE *in_file= NULL;
-
-    char buffer[100];
-    int year;
-    char space[]="                                           ";
-    char title[]="                                           ";
     int number_lines = 0;
 
-    DIR *d;
-    struct dirent *dir;
-    d = opendir(".");
-    if (d) {
-        while ((dir = readdir(d)) != NULL) {
-            printf("%s\n", dir->d_name);
-        }
-        closedir(d);
-    }
     in_file  = fopen(name, "r"); // read only
+
+    product_t *products = malloc( 30 * sizeof(product_t) );
+
+    if ( products == NULL ) {
+        fprintf(stderr, "Error - unable to allocate required memory\n");
+        return products;
+    }
+    product_t *products_org = products;
 
     if (in_file == NULL) {
         printf("Error! Could not open file %s\n",name);
         fclose(in_file);
         exit(1); // must include stdlib.h
     }
-
-    product_t prod;
     if (in_file) {
-        while(!feof(in_file)) {
-            number_lines++;
-            fscanf(in_file, "%lu %d %f %f %s\n",&prod.code,&prod.quantity,&prod.price_per_unit,&prod.discount,prod.name);
-            printf("%lu\n",(&prod)->code);
-            printf("%u\n",(&prod)->quantity);
-            printf("%f\n",(&prod)->price_per_unit);
-            printf("%f\n",(&prod)->discount);
-            printf("%s\n",(&prod)->name);
+        //number_lines++;
+        product_t prod;
+        fscanf(in_file, "%u\n",&number_lines);
+        *num_items = number_lines;
+        // while(!feof(in_file)) {
+        while(number_lines--) {
+            printf("NUmber of lines %d\n",number_lines+1);
+            fscanf(in_file, "%lu %d %f %f %s\n", &prod.product_code, &prod.stock_quantity, &prod.unit_price,
+                   &prod.discount_percentage, prod.product_name);
+            printf("%lu %u %f %f %s \n",prod.product_code, prod.stock_quantity, prod.unit_price,
+                   prod.discount_percentage, prod.product_name);
+            *products = prod;
+            products++;
             printf("NUmber of lines %d\n",number_lines);
         }
         printf("NUmber of lines %d\n",number_lines);
         // read from file/keyboard. remember the ampersands!
     }
     fclose(in_file);
+    return products_org;
+}
 
+product_t *task_2_load_products(char* name) {
+    FILE *in_file = NULL;
+
+//    char buffer[100];
+//    int year;
+//    char space[] = "                                           ";
+//    char title[] = "                                           ";
+    int number_lines = 0;
+
+    product_t *products = malloc( 30 * sizeof(product_t) );
+
+
+    if ( products == NULL ) {
+        fprintf(stderr, "Error - unable to allocate required memory\n");
+        return products;
+    }
+    product_t *products_org = products;
+
+    in_file = fopen(name, "r"); // read only
+
+    if (in_file == NULL) {
+        printf("Error! Could not open file %s\n", name);
+        fclose(in_file);
+        exit(1); // must include stdlib.h
+    }
+
+
+    if (in_file) {
+        while (!feof(in_file)) {
+            product_t prod;
+            fscanf(in_file, "%lu %d %f %f %s\n", &prod.product_code, &prod.stock_quantity, &prod.unit_price,
+                   &prod.discount_percentage, prod.product_name);
+            printf("%lu %u %f %f %s \n",prod.product_code, prod.stock_quantity, prod.unit_price,
+                   prod.discount_percentage, prod.product_name);
+            number_lines++;
+            *products = prod;
+            products++;
+            printf("NUmber of lines %d\n", number_lines);
+        }
+        printf("NUmber of lines %d\n", number_lines);
+        // read from file/keyboard. remember the ampersands!
+    }
+    fclose(in_file);
+    return products_org;
 }
