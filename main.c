@@ -5,6 +5,7 @@
 //#include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <math.h>
 
 
 int main(int argc, char* argv[]) {
@@ -27,13 +28,15 @@ int main(int argc, char* argv[]) {
     }
 
     int num_items = 0;
-    product_t *prod2 = task_5_load_products("..//T5-Products-300.txt",&num_items);
-    for (int i=0; i<num_items; i++) {
-        printf("i is %d\n",i);
-        printf("%lu %u %f %f %s \n",prod2->product_code, prod2->stock_quantity, prod2->unit_price,
-               prod2->discount_percentage, prod2->product_name);
-        prod2++;
-    }
+    product_t *prod2 = task_5_load_products("..//T5-Products-50.txt",&num_items);
+    product_t *prod = prod2;
+    pretty_print(prod, 30);
+//    for (int i=0; i<num_items; i++) {
+//        printf("i is %d\n",i);
+//        printf("%lu %u %f %f %s \n",prod2->product_code, prod2->stock_quantity, prod2->unit_price,
+//               prod2->discount_percentage, prod2->product_name);
+//        prod2++;
+//    }
 
     size_t a = sizeof(product_t);
     printf("pProd struct %lu \n",a);
@@ -127,4 +130,17 @@ product_t *task_2_load_products(char* name) {
     }
     fclose(in_file);
     return products_org;
+}
+
+
+void pretty_print(product_t *products, int num_items) {
+    int percentage;
+    for (int i=0; i<num_items; i++) {
+        printf("i is %d\n",i);
+        percentage = ceil((products->discount_percentage)*100.0);
+        printf("product_code %10lu %6u %9.2f %d %s \n",products->product_code, products->stock_quantity, products->unit_price,
+               percentage , products->product_name);
+        *products++;
+    }
+
 }

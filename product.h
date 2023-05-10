@@ -27,5 +27,5 @@ typedef struct product product_t;
 product_t load_products(char *filename);
 product_t *task_2_load_products(char* name);
 product_t *task_5_load_products(char* name,int* num_items);
-
+void pretty_print(product_t *products, int num_items);
 #endif //COURSEWORK1_PRODUCT_H
