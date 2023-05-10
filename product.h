@@ -8,7 +8,8 @@
 struct product {
 //  have to evaluate how long names can be
 //    char *product_name;
-    char product_name[64];
+//char product_name[64];
+    char *product_name;
 //  code is range 100_000_000 to 999_999_999
 //  unsigned int could be 2 or 4 bytes 0 - 65535 or 0 - 4,292.967,295
 //  unsigned long would be 0 - 4,292.967,295

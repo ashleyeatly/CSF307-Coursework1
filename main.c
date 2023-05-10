@@ -60,21 +60,25 @@ product_t *task_2_load_products(char* name) {
     if (in_file) {
         while (!feof(in_file)) {
             product_t prod = {"TRIAL",1000,200,1.20,0.25};
-            unsigned long product_code;
-            unsigned int stock_quantity;
-            float unit_price;
-            float discount_percentage;
+//            unsigned long product_code;
+//            unsigned int stock_quantity;
+//            float unit_price;
+//            float discount_percentage;
             char product_name[500];
-            fscanf(in_file, "%lu %d %f %f %s\n", &product_code, &stock_quantity, &unit_price,
-                   &discount_percentage, product_name);
+            fscanf(in_file, "%lu %d %f %f %s\n", &products->product_code, &products->stock_quantity, &products->unit_price,
+                   &products->discount_percentage, product_name);
 //            printf("%lu %u %f %f %s \n",product_code, stock_quantity, unit_price,
 //                   discount_percentage, product_name);
             number_lines++;
+//          As we have used malloc this is created in the Heap
+//          Local variables are placed on stack and they are destroyed on exit
+//          No need to manage the freeing up of the space
+            products->product_name = (char*) malloc(sizeof(char)*strlen(product_name));
             strcpy(products->product_name,product_name);
-            products->product_code = product_code;
-            products->stock_quantity = stock_quantity;
-            products->unit_price = unit_price;
-            products->discount_percentage = discount_percentage;
+//            products->product_code = product_code;
+//            products->stock_quantity = stock_quantity;
+//            products->unit_price = unit_price;
+//            products->discount_percentage = discount_percentage;
 //            *products = prod;
             pretty_print(products, 1);
             products++;
@@ -116,21 +120,22 @@ product_t *task_5_load_products(char* name, int* num_items) {
         product_t prod;
         while(number_lines--) {
             printf("NUmber of lines %d\n",number_lines+1);
-            unsigned long product_code;
-            unsigned int stock_quantity;
-            float unit_price;
-            float discount_percentage;
+//            unsigned long product_code;
+//            unsigned int stock_quantity;
+//            float unit_price;
+//            float discount_percentage;
             char product_name[500];
-            fscanf(in_file, "%lu %d %f %f %s\n", &product_code, &stock_quantity, &unit_price,
-                   &discount_percentage, product_name);
+            fscanf(in_file, "%lu %d %f %f %s\n", &products->product_code, &products->stock_quantity, &products->unit_price,
+                   &products->discount_percentage, product_name);
 //            printf("%lu %u %f %f %s \n",product_code, stock_quantity, unit_price,
 //                   discount_percentage, product_name);
             printf(" The string is %lu chars \n",strlen(product_name));
+            products->product_name = (char*) malloc(sizeof(char)*strlen(product_name));
             strcpy(products->product_name,product_name);
-            products->product_code = product_code;
-            products->stock_quantity = stock_quantity;
-            products->unit_price = unit_price;
-            products->discount_percentage = discount_percentage;
+//            products->product_code = product_code;
+//            products->stock_quantity = stock_quantity;
+//            products->unit_price = unit_price;
+//            products->discount_percentage = discount_percentage;
             pretty_print(products, 1);
 //            *products = prod;
             products++;
