@@ -5,7 +5,7 @@
 #ifndef COURSEWORK1_PRODUCT_H
 #define COURSEWORK1_PRODUCT_H
 
-struct product {
+typedef struct product {
 //  have to evaluate how long names can be
 //    char *product_name;
 //char product_name[64];
@@ -22,9 +22,9 @@ struct product {
     // discount can only be in theory 0 - 100%
     // can it be a float
     float discount_percentage;
-};
+} product_t;
 
-typedef struct product product_t;
+//typedef struct product product_t;
 
 product_t load_products(char *filename);
 product_t *task_2_load_products(char* name);
