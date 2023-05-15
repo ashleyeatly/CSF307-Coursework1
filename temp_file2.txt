@@ -1,0 +1,4 @@
+1 2 3 Minky_Hot_Spot_Pad_Ironing_Board
+2 3 4 Morphy_Richards_Iron_Steam_Generator
+5 6 7 Vax_Air_Lift_Upright_Vacuum_Cleaner
+8 9 10 Addis_10L_Stackable_Bucket

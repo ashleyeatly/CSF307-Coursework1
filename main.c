@@ -60,10 +60,6 @@ product_t *task_2_load_products(char* name) {
     if (in_file) {
         while (!feof(in_file)) {
             product_t prod = {"TRIAL",1000,200,1.20,0.25};
-//            unsigned long product_code;
-//            unsigned int stock_quantity;
-//            float unit_price;
-//            float discount_percentage;
             char product_name[500];
             fscanf(in_file, "%lu %d %f %f %s\n", &products->product_code, &products->stock_quantity, &products->unit_price,
                    &products->discount_percentage, product_name);
@@ -75,11 +71,7 @@ product_t *task_2_load_products(char* name) {
 //          No need to manage the freeing up of the space
             products->product_name = (char*) malloc(sizeof(char)*strlen(product_name));
             strcpy(products->product_name,product_name);
-//            products->product_code = product_code;
-//            products->stock_quantity = stock_quantity;
-//            products->unit_price = unit_price;
-//            products->discount_percentage = discount_percentage;
-//            *products = prod;
+//
             pretty_print(products, 1);
             products++;
             printf("NUmber of lines %d\n", number_lines);
@@ -120,10 +112,6 @@ product_t *task_5_load_products(char* name, int* num_items) {
         product_t prod;
         while(number_lines--) {
             printf("NUmber of lines %d\n",number_lines+1);
-//            unsigned long product_code;
-//            unsigned int stock_quantity;
-//            float unit_price;
-//            float discount_percentage;
             char product_name[500];
             fscanf(in_file, "%lu %d %f %f %s\n", &products->product_code, &products->stock_quantity, &products->unit_price,
                    &products->discount_percentage, product_name);
@@ -132,10 +120,6 @@ product_t *task_5_load_products(char* name, int* num_items) {
             printf(" The string is %lu chars \n",strlen(product_name));
             products->product_name = (char*) malloc(sizeof(char)*strlen(product_name));
             strcpy(products->product_name,product_name);
-//            products->product_code = product_code;
-//            products->stock_quantity = stock_quantity;
-//            products->unit_price = unit_price;
-//            products->discount_percentage = discount_percentage;
             pretty_print(products, 1);
 //            *products = prod;
             products++;
@@ -153,7 +137,7 @@ void pretty_print(product_t *products, int num_items) {
     for (int i=0; i<num_items; i++) {
         printf("i is %d\n",i);
         percentage = ceil((products->discount_percentage)*100.0);
-        printf("product_code %10lu %6u %9.2f %d %s \n",products->product_code, products->stock_quantity, products->unit_price,
+        printf("product_code %-10lu %-6u %-9.2f %-3d %s \n",products->product_code, products->stock_quantity, products->unit_price,
                percentage , products->product_name);
         *products++;
     }
