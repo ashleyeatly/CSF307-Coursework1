@@ -20,14 +20,15 @@ typedef struct product {
 //  we can store variable as a float but maybe use double for calculations
     float   unit_price;
     // discount can only be in theory 0 - 100%
-    // can it be a float
-    float discount_percentage;
+    // can it be a float - no replace unchanged car 0 - 255
+    unsigned int discount_percentage;
 } product_t;
 
 //typedef struct product product_t;
 
-product_t load_products(char *filename);
-product_t *task_2_load_products(char* name);
-product_t *task_5_load_products(char* name,int* num_items);
+product_t *load_products(char *filename, int *num_items);
+float calculate_score(product_t *prod1, unsigned long *product_code);
 void pretty_print(product_t *products, int num_items);
+void clear_products(product_t *prod, int num_items);
+void clear_product(product_t *prod);
 #endif //COURSEWORK1_PRODUCT_H

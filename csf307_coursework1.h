@@ -1,0 +1,10 @@
+//
+// Created by Ashley Eatly on 16/05/2023.
+//
+
+#ifndef CLIONPROJECTS_CSF307_COURSEWORK1_H
+#define CLIONPROJECTS_CSF307_COURSEWORK1_H
+#include "product.h"
+
+
+#endif //CLIONPROJECTS_CSF307_COURSEWORK1_H

@@ -1,4 +1,10 @@
+//
+// Created by Ashley Eatly on 16/05/2023.
+//
+
+#include "csf307_coursework1.h"
 #include "product.h"
+#include "trie.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,12 +23,40 @@ int main(int argc, char* argv[]) {
 
     product_t *products = load_products(filename, &num_items);
     printf("Num Items %d\n",num_items);
-    pretty_print(prod1, num_items);
+    pretty_print(products, num_items);
 
 
 //    size_t a = sizeof(product_t);
 //    printf("pProd struct %lu \n",a);
+
+    char buffer[100];
+    sprintf(buffer,"%lu",products->product_code);
+//    printf("buffer is %s\n", buffer);
+//    printf("buffer is %lu\n", strlen(buffer));
+//    for (int i=0; i< strlen(buffer)+1; i++) {
+//        puts(&buffer[i]);
+//    }
+//    puts("end");
+
+    trie_t *root = trie_new();
+    printf("inserting \n");
+    for (int i = 0; i < num_items; i++) {
+        insert(root, &products[i]);
+    }
+//    insert(root, &products[0]);
+    printf("finding \n");
+    for (int i=0; i<10; i++) {
+        product_t *product = get_product(root, products[i].product_code);
+
+//        printf(" product %p\n",products);
+//        printf(" product %p\n",product);
+//        printf("printing \n");
+//        printf(" product %s\n", product->product_name);
+        pretty_print(product,1);
+    }
+
     return 0;
+
 
 }
 
@@ -89,7 +123,7 @@ product_t *load_products(char* name, int* num_items) {
 //            pretty_print(products, 1);
             products++;
         }
-   }
+    }
     fclose(in_file);
     *num_items = count;
     return products_org;
@@ -102,4 +136,19 @@ void pretty_print(product_t *products, int num_items) {
                products[i].discount_percentage , products[i].product_name);
     }
 
+}
+
+float calculate_score(product_t *prod1, unsigned long *product_code){
+    product_t current_entry;
+    current_entry = *prod1;
+    *product_code = current_entry.product_code;
+    float score = (sqrt((double)current_entry.unit_price) * (double)((double)current_entry.discount_percentage)/100.0)/(double)(current_entry.stock_quantity);
+    pretty_print(prod1,1);
+    return score;
+//        char *product_name;
+//        unsigned long    product_code;
+//        unsigned int stock_quantity;
+//        float   unit_price;
+//        unsigned char discount_percentage;
+//
 }
